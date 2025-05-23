@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
 RUN apt-get install -y nginx openssl
@@ -10,6 +10,7 @@ RUN openssl req -x509 -nodes \
   -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=saberton.42.fr/UID=saberton"
 
 RUN mkdir -p /var/run/nginx
+
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN chmod 755 /var/www/html

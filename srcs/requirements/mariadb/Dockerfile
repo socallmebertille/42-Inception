@@ -1,4 +1,6 @@
-FROM debian:bookworm
+FROM debian:bullseye
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update -y && apt upgrade -y
 RUN apt-get install mariadb-server -y
