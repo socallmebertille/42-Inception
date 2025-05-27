@@ -3,16 +3,16 @@ version: '3.8'
 services:
 
   mariadb:
-    build: ./requirements/mariadb
+    build: ./requirements/mariadb # Build from local Dockerfile
     container_name: mariadb
     image: mariadb_custom
-    restart: always
+    restart: always # Automatic restart
     env_file:
-      - .env
+      - .env # Environment variables
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql # Data persistence
     networks:
-      - inception
+      - inception # Private network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
@@ -28,7 +28,7 @@ services:
       - .env
     depends_on:
       mariadb:
-        condition: service_healthy
+        condition: service_healthy # Wait until MariaDB is healthy
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -42,7 +42,7 @@ services:
     image: nginx_custom
     restart: always
     ports:
-      - "443:443"
+      - "443:443" # Only port exposed to the outside world
     volumes:
       - wordpress_data:/var/www/html
     depends_on:
