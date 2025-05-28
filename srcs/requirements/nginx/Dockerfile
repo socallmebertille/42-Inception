@@ -1,6 +1,7 @@
 # Stable version
 FROM debian:bullseye
 
+# Update system and install Nginx + OpenSSL
 RUN apt update -y && apt upgrade -y
 RUN apt-get install -y nginx openssl
 
@@ -16,10 +17,12 @@ RUN openssl req -x509 -nodes \
 # Create nginx runtime directory
 RUN mkdir -p /var/run/nginx
 
+# Copy my configuration files in the container filesystem
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 # Set permissions for web directory
 RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
+# Run Nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]

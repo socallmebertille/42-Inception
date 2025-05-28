@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Set non-interactive mode
 export DEBIAN_FRONTEND=noninteractive
 
 # Start MariaDB service
@@ -35,5 +36,5 @@ fi
 # Graceful shutdown and restart with mysqld_safe
 mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
 
-# Keeps container running
+# Keeps container running but with mysqld_safe who will handle the process management & restart f crashes
 exec mysqld_safe

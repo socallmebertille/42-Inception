@@ -36,6 +36,35 @@ volumes:
 
 ## Building the 42 Inception project
 
+```
+inception/
+├── Makefile                    # Automatisation des tâches
+└── srcs/
+    ├── docker-compose.yml      # Orchestration des services
+    ├── .env                    # Variables d'environnement
+    └── requirements/
+        ├── mariadb/            # Service de base de données
+        │   ├── Dockerfile
+        │   ├── conf/50-server.cnf
+        │   └── tools/script.sh
+        ├── nginx/              # Serveur web/proxy
+        │   ├── Dockerfile
+        │   └── conf/nginx.conf
+        └── wordpress/          # Application PHP
+            ├── Dockerfile
+            └── tools/setup.sh
+```
+
+```
+[Internet/Utilisateur]
+         ↓ HTTPS (443)
+  [Nginx Container]
+         ↓ FastCGI (9000)
+[WordPress Container]
+         ↓ MySQL (3306)
+  [MariaDB Container]
+```
+
 ### Step 1 - Création d'une VM Debian via VirtualBox
 
 - Ici on créé une VM pour réaliser des commandes sudo non accessibles depuis une session d'un post de l'école 42.
@@ -53,11 +82,58 @@ volumes:
 - Services définis : mariadb, wordpress, nginx, etc.
 - Gestion des volumes, des ports, des variables d’environnement.
 
-### Step 5 - Création de scripts d’init pour les services
+### Step 5 - Création des Dockerfile et des scripts d’init pour chaque service
 
+Ex : Service mariadb
 - Initialisation de mariadb avec script Bash.
 - Tests pour vérifier la base et les users via mysql.
 
-### Step 6 - Configuration de Nginx avec HTTPS (certificat autosigné).
+### Step 6 - Tester
 
-...... En cours.
+#### Mariadb
+
+- dans le terminal `docker exec -it mariadb mysql -u root -p`
+- rentrer le mot de passe pour root de mariadb
+- `SHOW DATABASES;`
+- `USE wordpress;`
+- `SHOW TABLES;`
+- `SELECT * FROM wp_users;`
+- `USE mysql;`
+- `SHOW TABLES;`
+- `SELECT User, Host FROM user;`
+- dans le terminal `mysql -h 127.0.0.1 -P 3306 -u root -p`
+- entre le mdp de root mariadb => doit afficher une erreur ACCESS DENIED
+
+#### Wordpress
+
+- dans le terminal `make re`
+- dans un navigateur `DOMAIN_NAME.42.fr`
+- creer un nouveau commentaire
+- dans un navigateur `DOMAIN_NAME.42.fr/wp-admin`
+- se connecter en tant qu'admin
+- approuver le commentaire
+- dans le terminal `make re`
+- dans un navigateur `DOMAIN_NAME.42.fr`
+- voir si le commentaire et toujours present
+- dans le terminal `telnet 127.0.0.1 9000` => doit echouer Connection refused
+
+#### Nginx
+
+- dans un navigateur `https://DOMAIN_NAME.42.fr` => OK
+- dans un navigateur `http://DOMAIN_NAME.42.fr` => doit renvoyer vers https
+- dans un navigateur `https://DOMAIN_NAME.42.fr/nimportequoi` => ERROR 404 Not Found
+- dans un navigateur `https://localhost` => Connection Failed
+- dans le terminal `docker exec -it nginx bash`
+- `apt install nmap net-tools -y`
+- `nmap -p 1-65535 localhost` => affiche les ports exposes
+- `netstat -tln` => de meme
+- puis CTRL + D
+- dans le terminal `docker port nginx` => 443 uniquement
+
+#### Depuis le terminal
+
+- `docker images` => verifier qu'il y a 1 image/service
+- `docker logs SERVICE_NAME` => verifier que les logs sont coherents et sans erreur
+- `docker volume ls` => on devrait retrouver les 2 volumes de mariadb et wordpress
+- `docker ps` => on devrait voir la liste de nos 3 dockers avec leur image etc...
+- `docker network ls` => on devrait avoir notre nouveau reseau inception dans la liste
