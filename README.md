@@ -14,7 +14,7 @@
 <ul class="list-disc pl-4 my-0">
   <li class="my-0"><a href="#overview">Overview</a></li>
   <ul class="list-disc pl-4 my-0">
-    <li class="my-0"><a href="#what-is-docker-🐳-?">What is Docker 🐳 ?</a></li>
+    <li class="my-0"><a href="#what-is-docker--">What is Docker 🐳 ?</a></li>
     <li class="my-0"><a href="#multi-container-orchestration">Multi-container orchestration</a></li>
     <li class="my-0"><a href="#persistant-storage">Persistant storage</a></li>
   </ul>
