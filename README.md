@@ -1,6 +1,35 @@
-# 42-Inception
+<div align="center" class="text-center">
+  <h1>42-INCEPTION</h1>
+  
+  <img alt="last-commit" src="https://img.shields.io/github/last-commit/socallmebertille/42-Inception?style=flat&amp;logo=git&amp;logoColor=white&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+  <img alt="repo-top-language" src="https://img.shields.io/github/languages/top/socallmebertille/42-Inception?style=flat&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+  <img alt="repo-language-count" src="https://img.shields.io/github/languages/count/socallmebertille/42-Inception?style=flat&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+  <p><em>Built with the tools and technologies:</em></p>
+  <img alt="Markdown" src="https://img.shields.io/badge/Markdown-000000.svg?style=flat&amp;logo=Markdown&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+  <img alt="GNU%20Bash" src="https://img.shields.io/badge/GNU%20Bash-4EAA25.svg?style=flat&amp;logo=GNU-Bash&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED.svg?style=flat&amp;logo=Docker&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+</div>
 
-## What is Docker 🐳 ?
+<h2>Table of Contents</h2>
+<ul class="list-disc pl-4 my-0">
+  <li class="my-0"><a href="#overview">Overview</a></li>
+  <ul class="list-disc pl-4 my-0">
+    <li class="my-0"><a href="#what-is-docker-🐳-?">What is Docker 🐳 ?</a></li>
+    <li class="my-0"><a href="#multi-container-orchestration">Multi-container orchestration</a></li>
+    <li class="my-0"><a href="#persistant-storage">Persistant storage</a></li>
+  </ul>
+  <li class="my-0"><a href="#building-the-42-inception-project">Building the 42 Inception project</a>
+  <ul class="list-disc pl-4 my-0">
+    <li class="my-0"><a href="#prerequisites">Prerequisites</a></li>
+    <li class="my-0"><a href="#installation">Installation</a></li>
+    <li class="my-0"><a href="#testing">Testing</a></li>
+  </ul>
+  </li>
+</ul>
+
+<h2>Overview</h2>
+
+<h3>What is Docker 🐳 ?</h3>
 
 Docker est une plateforme open-source qui permet de créer, déployer et exécuter des applications dans des conteneurs.
 Un conteneur est une unité légère, portable et isolée qui embarque tout le nécessaire pour faire fonctionner une application (code, librairies, dépendances, configuration…).
@@ -8,23 +37,17 @@ Un conteneur est une unité légère, portable et isolée qui embarque tout le n
 Contrairement aux machines virtuelles, les conteneurs partagent le noyau du système hôte, ce qui les rend plus rapides, plus légers et plus efficaces.
 Docker permet ainsi de garantir que l'application se comporte de la même façon partout, quel que soit l'environnement (développement, test, production...).
 
-## Few notions
-
-### Liens entre les conteneurs
+<h3>Multi-container orchestration</h3>
 
 | `docker-compose.yml` | fichier central du projet |
 |---|---|
 | permet | de mettre en relation plusieurs conteneurs Docker, il permet donc de créer un réseau Docker |
 | définit et configure | les services (conteneurs) à exécuter ensemble, leurs volumes, réseaux, et les variables d’environnement nécessaires |
 
-### Espaces de stockage
-
-| `volumes` |
-|---|
-| espaces de stockage partagés entre conteneurs pour persister les données au-delà du cycle de vie des conteneurs |
+<h3>Persistant storage</h3>
 
 ```
-volumes:
+volumes:    # espaces de stockage partagés entre conteneurs pour persister les données au-delà du cycle de vie des conteneurs
   mariadb_data:
     driver: local
     driver_opts:
@@ -34,7 +57,9 @@ volumes:
 ```
 
 
-## Building the 42 Inception project
+<h2>Building the 42 Inception project</h2>
+
+### Prerequisites
 
 ```
 inception/
@@ -65,30 +90,32 @@ inception/
   [MariaDB Container]
 ```
 
-### Step 1 - Création d'une VM Debian via VirtualBox
+### Installation
+
+#### Step 1 - Création d'une VM Debian via VirtualBox
 
 - Ici on créé une VM pour réaliser des commandes sudo non accessibles depuis une session d'un post de l'école 42.
 - Tips : utiliser un disque dur ou une clé USB suffiamment volumineuse pour y placer la VM.
 
-### Step 2 - Installation des outils nécessaires
+#### Step 2 - Installation des outils nécessaires
 
 - Docker, Docker Compose, make, vim, zsh, oh-my-zsh, etc.
 - Résolution de problèmes liés aux dépôts (ex. clé GPG pour VSCode).
 
-### Step 3 - Création du repo Git & clonage dans la VM.
+#### Step 3 - Création du repo Git & clonage dans la VM.
 
-### Step 4 - Écriture du docker-compose.yml
+#### Step 4 - Écriture du docker-compose.yml
 
 - Services définis : mariadb, wordpress, nginx, etc.
 - Gestion des volumes, des ports, des variables d’environnement.
 
-### Step 5 - Création des Dockerfile et des scripts d’init pour chaque service
+#### Step 5 - Création des Dockerfile et des scripts d’init pour chaque service
 
 Ex : Service mariadb
 - Initialisation de mariadb avec script Bash.
 - Tests pour vérifier la base et les users via mysql.
 
-### Step 6 - Tester
+### Testing
 
 #### Mariadb
 
